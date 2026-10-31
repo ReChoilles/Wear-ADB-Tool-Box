@@ -3,7 +3,6 @@ name: Build Windows
 on:
   push:
     branches: ["main"]
-    tags: ["v*"]
   workflow_dispatch: {}
 
 permissions:
@@ -62,14 +61,3 @@ jobs:
             build/compose/binaries/main/**/*.zip
             build/compose/jars/*.jar
           if-no-files-found: ignore
-
-      - name: Publish release
-        if: startsWith(github.ref, 'refs/tags/v')
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: pwsh
-        run: |
-          gh release create "${{ github.ref_name }}" --generate-notes --title "${{ github.ref_name }}"
-          if (Test-Path "build/compose/binaries/main/msi") { Get-ChildItem "build/compose/binaries/main/msi" -Filter *.msi | ForEach-Object { gh release upload "${{ github.ref_name }}" $_.FullName --clobber } }
-          if (Test-Path "build/compose/binaries/main/app") { Get-ChildItem "build/compose/binaries/main/app" -Filter *.zip | ForEach-Object { gh release upload "${{ github.ref_name }}" $_.FullName --clobber } }
-          if (Test-Path "build/compose/jars") { Get-ChildItem "build/compose/jars" -Filter *.jar | ForEach-Object { gh release upload "${{ github.ref_name }}" $_.FullName --clobber } }
