@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Power
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
@@ -44,7 +45,8 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-private class ForwardEntry(val hostPort: Int, val targetPort: Int, val handle: AutoCloseable) {
+/** 转发条目（公开类型，配合 public ViewModel 成员）。 */
+class ForwardEntry(val hostPort: Int, val targetPort: Int, val handle: AutoCloseable) {
     fun describe(): String = "localhost:$hostPort  →  设备 localhost:$targetPort"
 }
 
@@ -132,7 +134,7 @@ class ForwardViewModel(private val link: DeviceLink) {
     }
 
     /** 复位与服务端的连接（异常半开时使用）。 */
-    fun resetConnection(onResult: () -> Unit) {
+    fun resetConnection(onResult: () -> Unit = {}) {
         scope.launch {
             runCatching {
                 withContext(Dispatchers.IO) { link.kadb.resetConnection() }

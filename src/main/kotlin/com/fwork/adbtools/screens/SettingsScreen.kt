@@ -41,7 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.flyfishxu.kadb.DelayedAckMode
-import com.flyfishxu.kadb.KadbCert
+import com.flyfishxu.kadb.cert.KadbCert
 import com.flyfishxu.kadb.cert.KadbIdentitySnapshot
 import com.fwork.adbtools.core.FilePickers
 import com.fwork.adbtools.core.LogBus

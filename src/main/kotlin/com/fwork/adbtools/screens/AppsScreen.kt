@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.fwork.adbtools.core.DeviceLink
 import com.fwork.adbtools.core.FilePickers
 import com.fwork.adbtools.core.LogBus
 import com.fwork.adbtools.core.Toast

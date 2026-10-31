@@ -124,9 +124,9 @@ fun ShellScreen() {
                 }
 
                 Row(
+                    Modifier.fillMaxWidth().padding(top = 10.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    Modifier.fillMaxWidth().padding(top = 10.dp),
                 ) {
                     var input by remember { mutableStateOf("") }
                     LabeledField(

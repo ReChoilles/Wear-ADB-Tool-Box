@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.flyfishxu.kadb.DelayedAckMode
-import com.flyfishxu.kadb.KadbCert
+import com.flyfishxu.kadb.cert.KadbCert
 import com.flyfishxu.kadb.cert.KadbCertPolicy
 import com.flyfishxu.kadb.cert.OkioFilePrivateKeyStore
 import com.flyfishxu.kadb.mdns.MdnsServiceType
