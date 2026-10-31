@@ -25,7 +25,7 @@ jobs:
       - name: Build (MSI / ZIP / Uber Jar)
         shell: pwsh
         run: |
-          .\gradlew.bat packageForCurrentOS packageUberJarForCurrentOS --stacktrace --no-daemon 2>&1 | Tee-Object -FilePath build-log.txt
+          .\gradlew.bat packageDistributionForCurrentOS packageUberJarForCurrentOS --stacktrace --no-daemon 2>&1 | Tee-Object -FilePath build-log.txt
           exit $LASTEXITCODE
 
       - name: Error summary
