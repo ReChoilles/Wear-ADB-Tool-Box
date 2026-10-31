@@ -36,6 +36,12 @@ jobs:
           Select-String -Path build-log.txt -Pattern "^\s*(e: |error:?|FAILURE:|Caused by:)" |
             Select-Object -First 150 | ForEach-Object { $_.Line } |
             Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          if (Test-Path "build/compose/logs") {
+            Get-ChildItem "build/compose/logs" -Recurse -File | ForEach-Object {
+              "===== jpackage/tool log: $($_.FullName.Replace((Get-Location).Path,'')) =====" | Out-File build-log.txt -Append -Encoding utf8
+              Get-Content $_.FullName -ErrorAction SilentlyContinue | Select-Object -First 100 | Out-File build-log.txt -Append -Encoding utf8
+            }
+          }
 
       - name: Upload build log
         if: always()

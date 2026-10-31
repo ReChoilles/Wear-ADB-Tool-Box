@@ -32,8 +32,8 @@ compose.desktop {
             packageName = "WearADBToolBox"
             packageVersion = "1.0.0"
             vendor = "ReChoilles"
-            copyright = "© 2026 ReChoilles. Kadb © Flyfish Xu (Apache-2.0)."
-            description = "Windows 桌面版 ADB 工具箱（Kadb 驱动，无需 adb 二进制文件）"
+            copyright = "(c) 2026 ReChoilles. Kadb (c) Flyfish Xu (Apache-2.0)."
+            description = "Windows desktop ADB toolbox powered by Kadb, no adb binary required"
 
             windows {
                 menu = true
