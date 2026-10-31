@@ -1,0 +1,68 @@
+name: Build Windows
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 25
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: gradle
+
+      - name: Build (MSI / ZIP / Uber Jar)
+        shell: pwsh
+        run: |
+          .\gradlew.bat packageDistributionForCurrentOS packageUberJarForCurrentOS --stacktrace --no-daemon 2>&1 | Tee-Object -FilePath build-log.txt
+          exit $LASTEXITCODE
+
+      - name: Error summary
+        if: failure()
+        shell: pwsh
+        run: |
+          "# 构建失败摘要" | Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+          Select-String -Path build-log.txt -Pattern "^\s*(e: |error:?|FAILURE:|Caused by:)" |
+            Select-Object -First 150 | ForEach-Object { $_.Line } |
+            Out-File $env:GITHUB_STEP_SUMMARY -Append -Encoding utf8
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build-log.txt
+          if-no-files-found: ignore
+
+      - name: Upload distributions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-distributions
+          path: |
+            build/compose/binaries/main/**/*.msi
+            build/compose/binaries/main/**/*.zip
+            build/compose/jars/*.jar
+          if-no-files-found: ignore
+
+      - name: Publish release
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: pwsh
+        run: |
+          gh release create "${{ github.ref_name }}" --generate-notes --title "${{ github.ref_name }}"
+          if (Test-Path "build/compose/binaries/main/msi") { Get-ChildItem "build/compose/binaries/main/msi" -Filter *.msi | ForEach-Object { gh release upload "${{ github.ref_name }}" $_.FullName --clobber } }
+          if (Test-Path "build/compose/binaries/main/app") { Get-ChildItem "build/compose/binaries/main/app" -Filter *.zip | ForEach-Object { gh release upload "${{ github.ref_name }}" $_.FullName --clobber } }
+          if (Test-Path "build/compose/jars") { Get-ChildItem "build/compose/jars" -Filter *.jar | ForEach-Object { gh release upload "${{ github.ref_name }}" $_.FullName --clobber } }
