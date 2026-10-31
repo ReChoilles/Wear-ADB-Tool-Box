@@ -51,7 +51,7 @@ compose.desktop {
 }
 
 dependencies {
-    implementation(compose.desktop.desktop)
+    implementation("org.jetbrains.compose.desktop:desktop:1.13.0-beta01")
     implementation("org.jetbrains.compose.ui:ui:1.13.0-beta01")
     implementation("org.jetbrains.compose.foundation:foundation:1.13.0-beta01")
     implementation("org.jetbrains.compose.material3:material3:1.13.0-beta01")
