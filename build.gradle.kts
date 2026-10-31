@@ -33,7 +33,7 @@ compose.desktop {
         mainClass = "com.fwork.adbtools.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Msi, TargetFormat.Zip)
+            targetFormats(TargetFormat.Msi)
             packageName = "WearADBToolBox"
             packageVersion = "1.0.0"
             vendor = "ReChoilles"
@@ -51,7 +51,9 @@ compose.desktop {
 }
 
 dependencies {
-    implementation(compose.desktop.currentOs)
+    implementation(compose.desktop.desktop)
+    implementation("org.jetbrains.compose.ui:ui:1.13.0-beta01")
+    implementation("org.jetbrains.compose.foundation:foundation:1.13.0-beta01")
     implementation("org.jetbrains.compose.material3:material3:1.13.0-beta01")
     implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
     implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")

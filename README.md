@@ -36,7 +36,7 @@
 ## CI 构建（GitHub Actions）
 
 推送 `main` 或手动 `workflow_dispatch` 会自动在 `windows-latest`（Temurin JDK 25）上执行
-`gradlew packageDistributionForCurrentOS packageUberJarForCurrentOS`，并在 Actions 页面附件中提供：
+`gradlew packageForCurrentOS packageUberJarForCurrentOS`，并在 Actions 页面附件中提供：
 
 - `WearADBToolBox-1.0.0.msi`（安装包，WiX）
 - 便携 ZIP（jpackage app-image）
