@@ -4,7 +4,6 @@ plugins {
     kotlin("jvm") version "2.4.21"
     kotlin("plugin.compose") version "2.4.21"
     id("org.jetbrains.compose") version "1.13.0-beta01"
-    application
 }
 
 group = "com.fwork"
@@ -22,10 +21,6 @@ kotlin {
             "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
         )
     }
-}
-
-application {
-    mainClass.set("com.fwork.adbtools.MainKt")
 }
 
 compose.desktop {
