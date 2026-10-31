@@ -91,6 +91,7 @@ class AppsViewModel(private val link: DeviceLink) {
                         .filter(String::isNotBlank)
                         .distinct()
                         .sorted()
+                        .toList()
                     LogBus.info("包列表已刷新：${packages.size} 项（${kind.label}）")
                 }
                 .onFailure {
