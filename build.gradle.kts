@@ -51,14 +51,14 @@ dependencies {
     implementation("org.jetbrains.compose.foundation:foundation:1.13.0-beta01")
     implementation("org.jetbrains.compose.material3:material3:1.13.0-beta01")
     implementation("org.jetbrains.compose.material:material-icons-core:1.7.3")
-    implementation("org.jetbrains.compose.material:material-icons-extended:1.7.3")
 
     // Kadb: Kotlin Multiplatform ADB client (no adb binary required)
     implementation("com.flyfishxu:kadb-jvm:2.1.5")
     // Optional mDNS discovery of adb wireless / TLS services (JmDNS backend)
     implementation("com.flyfishxu:kadb-mdns-jvm:2.1.4")
     // JVM wireless-pairing TLS requirement (see Kadb platform notes)
-    implementation("org.conscrypt:conscrypt-openjdk-uber:2.7.0")
+    // Windows-only classifier: skips the 4 other-platform natives (~11 MB saved)
+    implementation("org.conscrypt:conscrypt-openjdk:2.7.0:windows-x86_64")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.11.0")
 }

@@ -13,9 +13,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.RestartAlt
-import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Terminal
+import com.fwork.adbtools.ui.icons.RestartAlt
+import com.fwork.adbtools.ui.icons.Send
+import com.fwork.adbtools.ui.icons.Terminal
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme

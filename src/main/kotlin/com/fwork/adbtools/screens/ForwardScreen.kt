@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Bolt
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.Power
-import androidx.compose.material.icons.filled.RestartAlt
+import com.fwork.adbtools.ui.icons.Bolt
+import com.fwork.adbtools.ui.icons.Close
+import com.fwork.adbtools.ui.icons.Link
+import com.fwork.adbtools.ui.icons.Power
+import com.fwork.adbtools.ui.icons.RestartAlt
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme

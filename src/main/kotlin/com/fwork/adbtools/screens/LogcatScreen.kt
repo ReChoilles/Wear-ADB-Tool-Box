@@ -12,10 +12,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Feed
-import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Stop
+import com.fwork.adbtools.ui.icons.Delete
+import com.fwork.adbtools.ui.icons.Feed
+import com.fwork.adbtools.ui.icons.PlayArrow
+import com.fwork.adbtools.ui.icons.Stop
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
