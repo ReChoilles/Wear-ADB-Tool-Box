@@ -185,7 +185,7 @@ fun IconAction(
     }
 }
 
-/** 矢量图标缓存：从 res 目录 icons/*.svg 加载（构建时打进 jar）。 */
+/** 矢量图标缓存：从 res 目录的 icons 子目录按名称加载 SVG（构建时打进 jar）。 */
 private object SvgIcons {
     private val cache = java.util.concurrent.ConcurrentHashMap<String, Painter>()
 
