@@ -11,15 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Delete
-import com.fwork.adbtools.ui.icons.Info
-import com.fwork.adbtools.ui.icons.Key
-import com.fwork.adbtools.ui.icons.Link
-import com.fwork.adbtools.ui.icons.OpenInNew
-import com.fwork.adbtools.ui.icons.Palette
-import com.fwork.adbtools.ui.icons.RestartAlt
-import com.fwork.adbtools.ui.icons.Save
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -62,6 +53,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.fwork.adbtools.ui.svgIcon
 
 private val CERT_DATE_FMT = SimpleDateFormat("yyyy-MM-dd", Locale.ROOT)
 
@@ -88,7 +80,7 @@ private fun ThemeCard() {
     SectionCard(
         title = "外观",
         subtitle = "深色模式 / 预设主色 / 自定义主色（MD3E 动态生成整套配色）",
-        icon = Icons.Filled.Palette,
+        icon = svgIcon("palette"),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -201,7 +193,7 @@ private fun IdentityCard() {
     SectionCard(
         title = "主机身份（ADB 密钥）",
         subtitle = "kadb 自管密钥 —— 持久化于 %APPDATA%\\WearADBToolBox\\kadb\\adbkey",
-        icon = Icons.Filled.Key,
+        icon = svgIcon("key"),
         trailing = {
             if (busy) Text("处理中…", style = MaterialTheme.typography.labelMedium)
         },
@@ -245,7 +237,7 @@ private fun IdentityCard() {
                 },
                 enabled = !busy,
             ) {
-                Icon(Icons.Filled.RestartAlt, contentDescription = null)
+                Icon(svgIcon("restart_alt"), contentDescription = null)
                 Text("轮换密钥")
             }
             OutlinedButton(
@@ -269,7 +261,7 @@ private fun IdentityCard() {
                     }
                 },
             ) {
-                Icon(Icons.Filled.OpenInNew, contentDescription = null)
+                Icon(svgIcon("open_in_new"), contentDescription = null)
                 Text("导入私钥")
             }
         }
@@ -298,14 +290,14 @@ private fun IdentityCard() {
                     }
                 },
             ) {
-                Icon(Icons.Filled.Save, contentDescription = null)
+                Icon(svgIcon("save"), contentDescription = null)
                 Text("导出私钥")
             }
             Button(
                 onClick = { confirmClear = true },
                 enabled = !busy,
             ) {
-                Icon(Icons.Filled.Delete, contentDescription = null)
+                Icon(svgIcon("delete"), contentDescription = null)
                 Text("清除身份")
             }
         }
@@ -352,7 +344,7 @@ private fun ConnectionCard() {
     SectionCard(
         title = "连接参数",
         subtitle = "超时与 delayed-ack —— 仅对之后新建的连接生效",
-        icon = Icons.Filled.Link,
+        icon = svgIcon("link"),
     ) {
         var connectText by remember { mutableStateOf(Prefs.connectTimeoutSec.toString()) }
         var socketText by remember { mutableStateOf(Prefs.socketTimeoutSec.toString()) }
@@ -411,7 +403,7 @@ private fun ConnectionCard() {
 
 @Composable
 private fun AboutCard() {
-    SectionCard(title = "关于", icon = Icons.Filled.Info) {
+    SectionCard(title = "关于", icon = svgIcon("info")) {
         FieldRow("应用", "Wear ADB Tool Box（com.fwork.adbtools）")
         FieldRow("界面", "Kotlin · Compose Multiplatform Desktop · Material 3 Expressive")
         FieldRow("ADB 核心", "flyfishxu Kadb 2.1.5（纯 Kotlin 实现，无需 adb 二进制）")

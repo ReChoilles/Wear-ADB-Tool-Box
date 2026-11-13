@@ -11,9 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.CheckCircle
-import com.fwork.adbtools.ui.icons.FolderOpen
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,10 +22,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.loadSvgPainter
+import androidx.compose.ui.unit.Density
 
 /** 分区卡片：大圆角 + 标题头（MD3E 观感）。 */
 @Composable
@@ -36,7 +35,7 @@ fun SectionCard(
     title: String,
     modifier: Modifier = Modifier,
     subtitle: String? = null,
-    icon: ImageVector? = null,
+    icon: Painter? = null,
     trailing: (@Composable RowScope.() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
@@ -118,7 +117,7 @@ fun FieldRow(label: String, value: String?, modifier: Modifier = Modifier, label
 fun EmptyHint(
     text: String,
     modifier: Modifier = Modifier,
-    icon: ImageVector = Icons.Filled.FolderOpen,
+    icon: Painter = svgIcon("folder_open"),
 ) {
     Column(
         modifier.fillMaxWidth().padding(vertical = 26.dp),
@@ -155,7 +154,7 @@ fun PillToggle(
         ) {
             if (selected) {
                 Icon(
-                    Icons.Filled.CheckCircle,
+                    svgIcon("check_circle"),
                     contentDescription = null,
                     modifier = Modifier.size(14.dp),
                     tint = MaterialTheme.colorScheme.primary,
@@ -174,7 +173,7 @@ fun PillToggle(
 /** 图标操作按钮。 */
 @Composable
 fun IconAction(
-    icon: ImageVector,
+    icon: Painter,
     contentDescription: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -185,3 +184,18 @@ fun IconAction(
         Icon(icon, contentDescription = contentDescription, tint = tint.copy(alpha = if (enabled) 1f else 0.4f))
     }
 }
+
+/** 矢量图标缓存：从 res 目录 icons/*.svg 加载（构建时打进 jar）。 */
+private object SvgIcons {
+    private val cache = java.util.concurrent.ConcurrentHashMap<String, Painter>()
+
+    fun get(name: String): Painter = cache.getOrPut(name) {
+        val stream = checkNotNull(SvgIcons::class.java.getResourceAsStream("/icons/$name.svg")) {
+            "Missing vector resource: /icons/$name.svg"
+        }
+        stream.use { loadSvgPainter(it, Density(1f)) }
+    }
+}
+
+/** 引用项目 res/icons 下的矢量图。 */
+fun svgIcon(name: String): Painter = SvgIcons.get(name)

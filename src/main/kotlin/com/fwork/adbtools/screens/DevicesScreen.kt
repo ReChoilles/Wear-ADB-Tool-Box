@@ -13,13 +13,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Bolt
-import com.fwork.adbtools.ui.icons.Android
-import com.fwork.adbtools.ui.icons.Refresh
-import com.fwork.adbtools.ui.icons.Search
-import com.fwork.adbtools.ui.icons.Usb
-import com.fwork.adbtools.ui.icons.Wifi
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -35,7 +28,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.flyfishxu.kadb.mdns.MdnsServiceType
 import com.flyfishxu.kadb.usb.KadbUsbDevice
@@ -55,6 +47,7 @@ import com.fwork.adbtools.ui.SectionCard
 import com.fwork.adbtools.ui.StatusPill
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.fwork.adbtools.ui.svgIcon
 
 @Composable
 fun DevicesScreen() {
@@ -96,13 +89,13 @@ private fun CurrentConnectionCard() {
     SectionCard(
         title = "当前连接",
         subtitle = link?.label,
-        icon = androidx.compose.material.icons.Icons.Filled.Android,
+        icon = svgIcon("android"),
         trailing = { StatusPill(link?.state) },
     ) {
         if (link == null) {
             EmptyHint(
                 "尚未连接任何设备 —— 使用下方 TCP / mDNS / USB 建立连接",
-                icon = androidx.compose.material.icons.Icons.Filled.Android,
+                icon = svgIcon("android"),
             )
         } else {
             link.props?.let { p ->
@@ -152,7 +145,7 @@ private fun ManualTcpCard() {
     SectionCard(
         title = "手动 TCP 连接",
         subtitle = "模拟器填 127.0.0.1:5555；设备为“无线调试”的 IP 与端口",
-        icon = Icons.Filled.Wifi,
+        icon = svgIcon("wifi"),
         trailing = {
             if (Toolbox.busy) CircularProgressIndicator(Modifier.height(18.dp))
         },
@@ -193,7 +186,7 @@ private fun PairingCard() {
     SectionCard(
         title = "无线配对（Android 11+）",
         subtitle = "设备 → 开发者选项 → 无线调试 → 使用配对码配对设备",
-        icon = androidx.compose.material.icons.Icons.Filled.Bolt,
+        icon = svgIcon("bolt"),
         trailing = {
             if (Toolbox.busy) CircularProgressIndicator(Modifier.height(18.dp))
         },
@@ -221,7 +214,7 @@ private fun MdnsCard() {
     SectionCard(
         title = "无线设备发现（mDNS）",
         subtitle = "_tls-connect / _tls-pairing / _adb 服务发现（JmDNS）",
-        icon = Icons.Filled.Search,
+        icon = svgIcon("search"),
         trailing = {
             PillToggle(
                 selected = MdnsScanner.running,
@@ -231,7 +224,7 @@ private fun MdnsCard() {
         },
     ) {
         if (!MdnsScanner.running) {
-            EmptyHint("开启后自动发现局域网内的 ADB TLS 服务", icon = Icons.Filled.Search)
+            EmptyHint("开启后自动发现局域网内的 ADB TLS 服务", icon = svgIcon("search"))
         } else {
             val list = MdnsScanner.endpoints
             if (list.isEmpty()) {
@@ -274,11 +267,11 @@ private fun UsbCard() {
     SectionCard(
         title = "USB 设备",
         subtitle = "桌面独立 USB 通道（不依赖 adb server；首次使用需在设备上允许 USB 调试）",
-        icon = Icons.Filled.Usb,
+        icon = svgIcon("usb"),
         trailing = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (UsbScanner.scanning) CircularProgressIndicator(Modifier.height(16.dp))
-                IconAction(Icons.Filled.Refresh, "重新枚举", onClick = { UsbScanner.refresh() })
+                IconAction(svgIcon("refresh"), "重新枚举", onClick = { UsbScanner.refresh() })
             }
         },
     ) {
@@ -290,7 +283,7 @@ private fun UsbCard() {
             )
         }
         if (UsbScanner.devices.isEmpty()) {
-            EmptyHint("未发现 ADB USB 设备 —— 连接后点击右上角刷新", icon = Icons.Filled.Usb)
+            EmptyHint("未发现 ADB USB 设备 —— 连接后点击右上角刷新", icon = svgIcon("usb"))
         } else {
             UsbScanner.devices.forEach { dev ->
                 UsbRow(dev)

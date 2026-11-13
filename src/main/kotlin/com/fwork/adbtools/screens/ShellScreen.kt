@@ -12,10 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.RestartAlt
-import com.fwork.adbtools.ui.icons.Send
-import com.fwork.adbtools.ui.icons.Terminal
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -59,6 +55,7 @@ import java.nio.CharBuffer
 import java.nio.charset.CharsetDecoder
 import java.nio.charset.CodingErrorAction
 import kotlin.math.max
+import com.fwork.adbtools.ui.svgIcon
 
 @Composable
 fun ShellScreen() {
@@ -68,8 +65,8 @@ fun ShellScreen() {
             Modifier.fillMaxSize().padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            SectionCard(title = "终端", icon = Icons.Filled.Terminal) {
-                EmptyHint("连接设备后即可使用 PTY 交互终端与一次性执行", icon = Icons.Filled.Terminal)
+            SectionCard(title = "终端", icon = svgIcon("terminal")) {
+                EmptyHint("连接设备后即可使用 PTY 交互终端与一次性执行", icon = svgIcon("terminal"))
             }
         }
         return
@@ -90,9 +87,9 @@ fun ShellScreen() {
         SectionCard(
             title = "PTY 交互终端",
             subtitle = "shell_v2 优先；旧设备回退 legacy 交互（shell:）",
-            icon = Icons.Filled.Terminal,
+            icon = svgIcon("terminal"),
             trailing = {
-                IconAction(Icons.Filled.RestartAlt, "重连会话", onClick = { session.restart() })
+                IconAction(svgIcon("restart_alt"), "重连会话", onClick = { session.restart() })
             },
         ) {
             Column {
@@ -156,7 +153,7 @@ private fun OneShotCard(exec: OneShotExec) {
     SectionCard(
         title = "一次性执行",
         subtitle = "kadb.shell(command)：stdout / stderr / exit code",
-        icon = Icons.Filled.Send,
+        icon = svgIcon("send"),
     ) {
         var cmd by remember { mutableStateOf("uname -a") }
         Row(

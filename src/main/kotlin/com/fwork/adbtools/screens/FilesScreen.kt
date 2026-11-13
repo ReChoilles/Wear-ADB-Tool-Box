@@ -12,18 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Add
-import com.fwork.adbtools.ui.icons.ChevronLeft
-import com.fwork.adbtools.ui.icons.ChevronRight
-import com.fwork.adbtools.ui.icons.Computer
-import com.fwork.adbtools.ui.icons.Delete
-import com.fwork.adbtools.ui.icons.Description
-import com.fwork.adbtools.ui.icons.Download
-import com.fwork.adbtools.ui.icons.Folder
-import com.fwork.adbtools.ui.icons.Refresh
-import com.fwork.adbtools.ui.icons.Smartphone
-import com.fwork.adbtools.ui.icons.Upload
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -41,7 +29,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.fwork.adbtools.core.DeviceLink
@@ -70,6 +57,8 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.compose.ui.graphics.painter.Painter
+import com.fwork.adbtools.ui.svgIcon
 
 /** 目录位（stat mode 的 S_IFDIR 位）。 */
 private const val DIR_BIT = 0x4000
@@ -470,8 +459,8 @@ fun FilesScreen() {
             Modifier.fillMaxSize().padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            SectionCard(title = "文件管理", icon = Icons.Filled.Computer) {
-                EmptyHint("连接设备后可进行文件推送 / 拉取 / 目录管理", icon = Icons.Filled.Computer)
+            SectionCard(title = "文件管理", icon = svgIcon("computer")) {
+                EmptyHint("连接设备后可进行文件推送 / 拉取 / 目录管理", icon = svgIcon("computer"))
             }
         }
         return
@@ -530,12 +519,12 @@ private fun ProgressStrip(vm: FilesViewModel) {
 private fun LocalPane(vm: FilesViewModel) {
     SectionCard(
         title = "本机（${vm.localPath}）",
-        icon = Icons.Filled.Computer,
+        icon = svgIcon("computer"),
         trailing = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconAction(Icons.Filled.ChevronLeft, "上级目录", onClick = { vm.upLocal() })
-                IconAction(Icons.Filled.Folder, "浏览目录", onClick = { vm.browseLocal() })
-                IconAction(Icons.Filled.Refresh, "刷新", onClick = { vm.refreshLocal() })
+                IconAction(svgIcon("chevron_left"), "上级目录", onClick = { vm.upLocal() })
+                IconAction(svgIcon("folder"), "浏览目录", onClick = { vm.browseLocal() })
+                IconAction(svgIcon("refresh"), "刷新", onClick = { vm.refreshLocal() })
             }
         },
     ) {
@@ -565,7 +554,7 @@ private fun LocalPane(vm: FilesViewModel) {
             metaOf = { e ->
                 (if (e.isDir) "目录" else humanSize(e.size)) + " · " + TIME_FMT.format(Date(e.timeMs))
             },
-            iconOf = { if (it.isDir) Icons.Filled.Folder else Icons.Filled.Description },
+            iconOf = { if (it.isDir) svgIcon("folder") else svgIcon("description") },
             onOpen = { if (it.isDir) vm.enterLocal(it) else Unit },
             onSelect = { vm.toggleLocal(it.name) },
         )
@@ -579,7 +568,7 @@ private fun LocalPane(vm: FilesViewModel) {
                 onClick = { vm.pushSelected() },
                 enabled = !vm.busy && vm.localSel.isNotEmpty(),
             ) {
-                Icon(Icons.Filled.Upload, contentDescription = null)
+                Icon(svgIcon("upload"), contentDescription = null)
                 Text("推送到设备")
             }
         }
@@ -593,11 +582,11 @@ private fun RemotePane(vm: FilesViewModel) {
 
     SectionCard(
         title = "设备端（${vm.remotePath}）",
-        icon = Icons.Filled.Smartphone,
+        icon = svgIcon("smartphone"),
         trailing = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconAction(Icons.Filled.ChevronLeft, "上级目录", onClick = { vm.upRemote() })
-                IconAction(Icons.Filled.Refresh, "刷新", onClick = { vm.refreshRemote() })
+                IconAction(svgIcon("chevron_left"), "上级目录", onClick = { vm.upRemote() })
+                IconAction(svgIcon("refresh"), "刷新", onClick = { vm.refreshRemote() })
             }
         },
     ) {
@@ -627,7 +616,7 @@ private fun RemotePane(vm: FilesViewModel) {
             metaOf = { e ->
                 (if (e.isDir) "目录" else humanSize(e.size)) + " · " + TIME_FMT.format(Date(e.mtimeSec * 1000))
             },
-            iconOf = { if (it.isDir) Icons.Filled.Folder else Icons.Filled.Description },
+            iconOf = { if (it.isDir) svgIcon("folder") else svgIcon("description") },
             onOpen = { if (it.isDir) vm.enterRemote(it) else Unit },
             onSelect = { vm.toggleRemote(it.name) },
         )
@@ -641,7 +630,7 @@ private fun RemotePane(vm: FilesViewModel) {
                 vm.mkdir(newFolder)
                 newFolder = ""
             }) {
-                Icon(Icons.Filled.Add, contentDescription = "创建文件夹")
+                Icon(svgIcon("add"), contentDescription = "创建文件夹")
             }
         }
 
@@ -654,14 +643,14 @@ private fun RemotePane(vm: FilesViewModel) {
                 onClick = { vm.pullSelected() },
                 enabled = !vm.busy && vm.remoteSel.isNotEmpty(),
             ) {
-                Icon(Icons.Filled.Download, contentDescription = null)
+                Icon(svgIcon("download"), contentDescription = null)
                 Text("拉取到本机")
             }
             Button(
                 onClick = { confirmDelete = true },
                 enabled = !vm.busy && vm.remoteSel.isNotEmpty(),
             ) {
-                Icon(Icons.Filled.Delete, contentDescription = null)
+                Icon(svgIcon("delete"), contentDescription = null)
                 Text("删除所选")
             }
         }
@@ -700,7 +689,7 @@ private fun <T> EntryList(
     nameOf: (T) -> String,
     isDirOf: (T) -> Boolean,
     metaOf: (T) -> String,
-    iconOf: (T) -> ImageVector,
+    iconOf: (T) -> Painter,
     onOpen: (T) -> Unit,
     onSelect: (T) -> Unit,
 ) {
@@ -756,7 +745,7 @@ private fun <T> EntryList(
                         if (isDir) {
                             IconButton(onClick = { onOpen(e) }) {
                                 Icon(
-                                    Icons.Filled.ChevronRight,
+                                    svgIcon("chevron_right"),
                                     contentDescription = "进入 $name",
                                     tint = MaterialTheme.colorScheme.primary,
                                 )

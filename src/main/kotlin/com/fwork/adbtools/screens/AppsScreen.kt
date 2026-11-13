@@ -10,13 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Apps
-import com.fwork.adbtools.ui.icons.CloudUpload
-import com.fwork.adbtools.ui.icons.Delete
-import com.fwork.adbtools.ui.icons.InstallMobile
-import com.fwork.adbtools.ui.icons.Refresh
-import com.fwork.adbtools.ui.icons.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -51,6 +44,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import com.fwork.adbtools.ui.svgIcon
 
 enum class PkgKind(val label: String, val flag: String) {
     USER("用户", "-3"),
@@ -169,8 +163,8 @@ fun AppsScreen() {
             Modifier.fillMaxSize().padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            SectionCard(title = "应用管理", icon = Icons.Filled.Apps) {
-                EmptyHint("连接设备后可安装 / 卸载 / 查看应用包", icon = Icons.Filled.Apps)
+            SectionCard(title = "应用管理", icon = svgIcon("apps")) {
+                EmptyHint("连接设备后可安装 / 卸载 / 查看应用包", icon = svgIcon("apps"))
             }
         }
         return
@@ -201,7 +195,7 @@ private fun InstallCard(vm: AppsViewModel) {
     SectionCard(
         title = "APK 安装",
         subtitle = "kadb.install / installMultiple —— 单包或拆分包",
-        icon = Icons.Filled.InstallMobile,
+        icon = svgIcon("install_mobile"),
         trailing = {
             if (vm.installing) Text("安装中…", style = MaterialTheme.typography.labelMedium)
         },
@@ -211,7 +205,7 @@ private fun InstallCard(vm: AppsViewModel) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Button(onClick = { vm.pickApks() }, enabled = !vm.installing) {
-                Icon(Icons.Filled.CloudUpload, contentDescription = null)
+                Icon(svgIcon("cloud_upload"), contentDescription = null)
                 Text("选择 APK…")
             }
             Button(
@@ -271,11 +265,11 @@ private fun PackageListCard(vm: AppsViewModel) {
     SectionCard(
         title = "应用包列表",
         subtitle = "`pm list packages`—— 卸载走 `cmd package uninstall`",
-        icon = Icons.Filled.Apps,
+        icon = svgIcon("apps"),
         trailing = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (vm.loading) Text("加载中…", style = MaterialTheme.typography.labelMedium)
-                IconAction(Icons.Filled.Refresh, "刷新列表", onClick = { vm.refresh() })
+                IconAction(svgIcon("refresh"), "刷新列表", onClick = { vm.refresh() })
             }
         },
     ) {
@@ -302,7 +296,7 @@ private fun PackageListCard(vm: AppsViewModel) {
         }
 
         if (shown.isEmpty()) {
-            EmptyHint("没有匹配的应用包", icon = Icons.Filled.Search)
+            EmptyHint("没有匹配的应用包", icon = svgIcon("search"))
         } else {
             Box(Modifier.height(360.dp)) {
                 Column(
@@ -332,7 +326,7 @@ private fun PackageListCard(vm: AppsViewModel) {
                                 )
                                 IconButton(onClick = { confirmTarget = name }) {
                                     Icon(
-                                        Icons.Filled.Delete,
+                                        svgIcon("delete"),
                                         contentDescription = "卸载",
                                         tint = MaterialTheme.colorScheme.error,
                                     )

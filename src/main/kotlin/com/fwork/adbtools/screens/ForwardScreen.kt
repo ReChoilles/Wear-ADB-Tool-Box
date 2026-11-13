@@ -8,12 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Bolt
-import com.fwork.adbtools.ui.icons.Close
-import com.fwork.adbtools.ui.icons.Link
-import com.fwork.adbtools.ui.icons.Power
-import com.fwork.adbtools.ui.icons.RestartAlt
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.fwork.adbtools.ui.svgIcon
 
 /** 转发条目（公开类型，配合 public ViewModel 成员）。 */
 class ForwardEntry(val hostPort: Int, val targetPort: Int, val handle: AutoCloseable) {
@@ -154,8 +149,8 @@ fun ForwardScreen() {
             Modifier.fillMaxSize().padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            SectionCard(title = "端口转发", icon = Icons.Filled.Link) {
-                EmptyHint("连接设备后可将本机端口转发到设备端口（如 localhost:8000 → 设备 Cutehttpd 8080）", icon = Icons.Filled.Link)
+            SectionCard(title = "端口转发", icon = svgIcon("link")) {
+                EmptyHint("连接设备后可将本机端口转发到设备端口（如 localhost:8000 → 设备 Cutehttpd 8080）", icon = svgIcon("link"))
             }
         }
         return
@@ -186,10 +181,10 @@ private fun PortForwardCard(vm: ForwardViewModel) {
     SectionCard(
         title = "端口转发",
         subtitle = "Kadb.tcpForward —— 本机监听 → 设备 localhost",
-        icon = Icons.Filled.Link,
+        icon = svgIcon("link"),
         trailing = {
             if (vm.entries.isNotEmpty()) {
-                IconAction(Icons.Filled.RestartAlt, "全部停止", onClick = {
+                IconAction(svgIcon("restart_alt"), "全部停止", onClick = {
                     vm.entries.forEach { runCatching { it.handle.close() } }
                     vm.entries.clear()
                     LogBus.info("已停止全部转发")
@@ -234,7 +229,7 @@ private fun PortForwardCard(vm: ForwardViewModel) {
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                             )
-                            IconAction(Icons.Filled.Close, "停止该转发", onClick = { vm.close(entry) })
+                            IconAction(svgIcon("close"), "停止该转发", onClick = { vm.close(entry) })
                         }
                     }
                 }
@@ -255,11 +250,11 @@ private fun AdbdCard(vm: ForwardViewModel) {
     SectionCard(
         title = "adbd 管理",
         subtitle = "root / unroot —— 仅工程调试（userdebug 全板）可用",
-        icon = Icons.Filled.Power,
+        icon = svgIcon("power"),
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             Button(onClick = { vm.root { message = it } }) {
-                Icon(Icons.Filled.Bolt, contentDescription = null)
+                Icon(svgIcon("bolt"), contentDescription = null)
                 Text("以 root 重启 adbd")
             }
             Button(onClick = { vm.unroot { message = it } }) {
@@ -268,7 +263,7 @@ private fun AdbdCard(vm: ForwardViewModel) {
         }
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedButton(onClick = { vm.resetConnection() }) {
-                Icon(Icons.Filled.RestartAlt, contentDescription = null)
+                Icon(svgIcon("restart_alt"), contentDescription = null)
                 Text("复位连接状态")
             }
         }

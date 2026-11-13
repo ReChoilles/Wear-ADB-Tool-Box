@@ -19,19 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Apps
-import com.fwork.adbtools.ui.icons.CheckCircle
-import com.fwork.adbtools.ui.icons.Close
-import com.fwork.adbtools.ui.icons.Computer
-import com.fwork.adbtools.ui.icons.Description
-import com.fwork.adbtools.ui.icons.Folder
-import com.fwork.adbtools.ui.icons.Info
-import com.fwork.adbtools.ui.icons.Link
-import com.fwork.adbtools.ui.icons.Settings
-import com.fwork.adbtools.ui.icons.Terminal
-import com.fwork.adbtools.ui.icons.Usb
-import com.fwork.adbtools.ui.icons.Wifi
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -51,7 +38,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.fwork.adbtools.core.LinkType
 import com.fwork.adbtools.core.LinkState
@@ -64,25 +50,26 @@ import com.fwork.adbtools.screens.ForwardScreen
 import com.fwork.adbtools.screens.LogcatScreen
 import com.fwork.adbtools.screens.SettingsScreen
 import com.fwork.adbtools.screens.ShellScreen
+import androidx.compose.ui.graphics.painter.Painter
 
 object Root {
     var tab by mutableIntStateOf(0)
 }
 
 private data class TabSpec(
-    val icon: ImageVector,
+    val icon: Painter,
     val label: String,
     val screen: @Composable () -> Unit,
 )
 
 private val Tabs = listOf(
-    TabSpec(Icons.Filled.Computer, "设备") { DevicesScreen() },
-    TabSpec(Icons.Filled.Terminal, "终端") { ShellScreen() },
-    TabSpec(Icons.Filled.Folder, "文件") { FilesScreen() },
-    TabSpec(Icons.Filled.Apps, "应用") { AppsScreen() },
-    TabSpec(Icons.Filled.Link, "转发") { ForwardScreen() },
-    TabSpec(Icons.Filled.Description, "日志") { LogcatScreen() },
-    TabSpec(Icons.Filled.Settings, "设置") { SettingsScreen() },
+    TabSpec(svgIcon("computer"), "设备") { DevicesScreen() },
+    TabSpec(svgIcon("terminal"), "终端") { ShellScreen() },
+    TabSpec(svgIcon("folder"), "文件") { FilesScreen() },
+    TabSpec(svgIcon("apps"), "应用") { AppsScreen() },
+    TabSpec(svgIcon("link"), "转发") { ForwardScreen() },
+    TabSpec(svgIcon("description"), "日志") { LogcatScreen() },
+    TabSpec(svgIcon("settings"), "设置") { SettingsScreen() },
 )
 
 @Composable
@@ -134,9 +121,9 @@ fun AppRoot() {
 }
 
 /** 连接设备型图标。 */
-private fun iconFor(type: LinkType): ImageVector = when (type) {
-    LinkType.USB -> Icons.Filled.Usb
-    LinkType.TCP -> Icons.Filled.Wifi
+private fun iconFor(type: LinkType): Painter = when (type) {
+    LinkType.USB -> svgIcon("usb")
+    LinkType.TCP -> svgIcon("wifi")
 }
 
 private enum class PickerState { HIDDEN, OPEN }
@@ -179,7 +166,7 @@ private fun HeaderBar() {
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     Icon(
-                        if (active == null) Icons.Filled.Close else Icons.Filled.CheckCircle,
+                        if (active == null) svgIcon("close") else svgIcon("check_circle"),
                         contentDescription = null,
                         tint = if (active == null) MaterialTheme.colorScheme.onSurfaceVariant
                         else MaterialTheme.colorScheme.primary,
@@ -254,7 +241,7 @@ private fun HeaderBar() {
                                         picker = PickerState.HIDDEN
                                     }) {
                                         Icon(
-                                            Icons.Filled.Close,
+                                            svgIcon("close"),
                                             contentDescription = "断开",
                                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                         )
@@ -317,7 +304,7 @@ private fun ToastHost(modifier: Modifier = Modifier) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
                 Icon(
-                    Icons.Filled.Info,
+                    svgIcon("info"),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.inverseOnSurface,
                 )

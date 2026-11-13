@@ -11,11 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import com.fwork.adbtools.ui.icons.Delete
-import com.fwork.adbtools.ui.icons.Feed
-import com.fwork.adbtools.ui.icons.PlayArrow
-import com.fwork.adbtools.ui.icons.Stop
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,6 +46,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.fwork.adbtools.ui.svgIcon
 
 /** logcat 会话：shell_v2 用 openShell（协议分包），旧设备回退 legacy（shell:命令 原始流）。 */
 class LogcatViewModel(private val link: DeviceLink) {
@@ -184,8 +180,8 @@ fun LogcatScreen() {
             Modifier.fillMaxSize().padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            SectionCard(title = "日志", icon = Icons.Filled.Feed) {
-                EmptyHint("连接设备后可实时查看 logcat 日志（本机文本过滤）", icon = Icons.Filled.Feed)
+            SectionCard(title = "日志", icon = svgIcon("feed")) {
+                EmptyHint("连接设备后可实时查看 logcat 日志（本机文本过滤）", icon = svgIcon("feed"))
             }
         }
         return
@@ -206,21 +202,21 @@ fun LogcatScreen() {
         SectionCard(
             title = "设备日志（logcat -v time）",
             subtitle = "进入页面自动开始；shell_v2 优先，旧设备回退 legacy",
-            icon = Icons.Filled.Feed,
+            icon = svgIcon("feed"),
             trailing = {
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     if (vm.running) {
                         Button(onClick = { vm.stop() }) {
-                            androidx.compose.material3.Icon(Icons.Filled.Stop, contentDescription = null)
+                            androidx.compose.material3.Icon(svgIcon("stop"), contentDescription = null)
                             Text("停止")
                         }
                     } else {
                         Button(onClick = { vm.start() }) {
-                            androidx.compose.material3.Icon(Icons.Filled.PlayArrow, contentDescription = null)
+                            androidx.compose.material3.Icon(svgIcon("play_arrow"), contentDescription = null)
                             Text("开始")
                         }
                     }
-                    IconAction(Icons.Filled.Delete, "清屏", onClick = { vm.clear() })
+                    IconAction(svgIcon("delete"), "清屏", onClick = { vm.clear() })
                 }
             },
         ) {
